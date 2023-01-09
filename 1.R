@@ -60,14 +60,35 @@ ggplot(mds, aes(X1, -X2, label= city)) + geom_text_repel()
 
 str(mtcars)
 
-mds <- data.frame(cmdscale(dist(mtcars)))
+mds <- data.frame(cmdscale(dist(scale(mtcars))))
+library(ggplot2)
+library(ggrepel)
 mds$car <- row.names(mds)
 ggplot(mds, aes(X1, X2, label= car)) + geom_text_repel()
 
-dist(mtcars)
+str(mtcars)
 
+# make sure the dist matrix takes all variables with the same scale
+scale(mtcars)
 
+# 
+str(UCBAdmissions)
+ucb <- as.data.frame(UCBAdmissions)
 
+# admitted and rejected
+# position= 'fill' shows the percentage
+ggplot(ucb, aes(Gender, Freq, fill=Admit)) + geom_col(position = 'fill')
+
+# add colors
+ggplot(ucb, aes(Gender, Freq, fill=Admit)) + geom_col(position = 'fill') + 
+  scale_fill_manual(values = c("Admitted"="darkgreen", "Rejected"="darkred"))
+
+ggplot(ucb, aes(Gender, Freq, fill=Admit)) + geom_col(position = 'fill') + 
+  scale_fill_manual(values = c("Admitted"="darkgreen", "Rejected"="darkred")) + facet_wrap(~Dept)
+
+# look at numbers rather than frequency
+ggplot(ucb, aes(Gender, Freq, fill=Admit)) + geom_col() + 
+  scale_fill_manual(values = c("Admitted"="darkgreen", "Rejected"="darkred")) + facet_wrap(~Dept)
 
 
 
